@@ -5,8 +5,8 @@ import {
   Route
 } from "react-router-dom";
 import './index.css'
-import App from "./App";
-import {Login , Register , Dashboard} from "./pages";
+import App from "./App.jsx";
+import {Login , Register , Dashboard} from "@pages";
 
 const rootElement = document.getElementById("root");
 render(
