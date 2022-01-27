@@ -1,15 +1,21 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
+import { useLoginMutation } from "@services/user.js";
 
 export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { loading, error }] = useLoginMutation();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email, password);
-    };
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { data , error} = await login({ email, password });
+    if (data) {
+      console.log(data);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -23,13 +29,13 @@ export const Login = () => {
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <div className="card-body">
+          <form className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 type="text"
                 placeholder="email"
                 className="input input-bordered"
@@ -40,7 +46,7 @@ export const Login = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 type="text"
                 placeholder="password"
                 className="input input-bordered"
@@ -49,9 +55,12 @@ export const Login = () => {
             <div className="form-control mt-6">
               <input
                 onClick={handleSubmit}
-              type="button" value="Login" className="btn btn-primary" />
+                type="button"
+                value="Login"
+                className="btn btn-primary"
+              />
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
