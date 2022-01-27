@@ -1,19 +1,51 @@
 import React, { useState } from "react";
 import { useLoginMutation } from "@services/user.js";
+import { motion } from "framer-motion";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
+
+const TransitionLeft = (props) => {
+  return <Slide {...props} direction="right" />;
+};
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { loading, error }] = useLoginMutation();
 
+  const [open, setOpen] = React.useState(false);
+  const [transition, setTransition] = React.useState(undefined);
+
+  const handleSnackbar = (Transition) => () => {
+    setTransition(() => Transition);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [snackAlert, setSnackAlert] = useState({
+    variant: "info",
+    message: "beauty",
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data , error} = await login({ email, password });
+    const { data, error } = await login({ email, password });
     if (data) {
       console.log(data);
+      setSnackAlert({ variant: "success", message: "Login Success" });
+      handleSnackbar(TransitionLeft)();
     }
     if (error) {
       console.log(error);
+      setSnackAlert({ variant: "error", message: "login failed" });
+      handleSnackbar(TransitionLeft)();
     }
   };
 
@@ -53,16 +85,28 @@ export const Login = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <input
-                onClick={handleSubmit}
-                type="button"
-                value="Login"
-                className="btn btn-primary"
-              />
+              <motion.button className="btn btn-primary" onClick={handleSubmit}>
+                Login
+              </motion.button>
             </div>
           </form>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={transition}
+        message="I love snacks"
+        key={transition ? transition.name : ""}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={snackAlert.variant}
+          sx={{ width: "100%" }}
+        >
+          {snackAlert.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
