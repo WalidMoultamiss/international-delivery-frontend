@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoginMutation } from "@services/user.js";
 import { motion } from "framer-motion";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
+import { useSelector } from "react-redux";
 
 const TransitionLeft = (props) => {
   return <Slide {...props} direction="right" />;
@@ -33,6 +34,12 @@ export const Login = () => {
     variant: "info",
     message: "beauty",
   });
+
+  const selector = useSelector((state) => state.userApi);
+
+  useEffect(() => {
+    console.log(selector);
+  }, [selector]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

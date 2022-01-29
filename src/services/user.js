@@ -5,6 +5,8 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/user",
   }),
+  tagTypes: ["user"],
+  requestId: "userApi",
   endpoints: (builder) => ({
     login: builder.mutation({
       query : (body)=>{
