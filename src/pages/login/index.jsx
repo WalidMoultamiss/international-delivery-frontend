@@ -5,6 +5,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const TransitionLeft = (props) => {
   return <Slide {...props} direction="right" />;
@@ -41,6 +42,12 @@ export const Login = () => {
     console.log(selector);
   }, [selector]);
 
+  let navigate = useNavigate();
+
+  const NavigateToDashboard = () => {
+    navigate("/dashboard");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data, error } = await login({ email, password });
@@ -48,6 +55,7 @@ export const Login = () => {
       console.log(data);
       setSnackAlert({ variant: "success", message: "Login Success" });
       handleSnackbar(TransitionLeft)();
+      NavigateToDashboard();
     }
     if (error) {
       console.log(error);

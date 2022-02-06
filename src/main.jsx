@@ -6,6 +6,7 @@ import { Login, Register, Dashboard } from "@pages";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 
+
 const rootElement = document.getElementById("root");
 render(
   <BrowserRouter>

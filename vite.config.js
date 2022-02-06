@@ -10,5 +10,6 @@ export default defineConfig({
     '@pages': '/src/pages',
     '@services': '/src/services',
     '@store': '/src/store.js',
+    '@images': '/public/images',
   },
 })

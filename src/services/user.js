@@ -9,13 +9,13 @@ export const userApi = createApi({
   requestId: "userApi",
   endpoints: (builder) => ({
     login: builder.mutation({
-      query : (body)=>{
+      query: (body) => {
         return {
-            url: "/login",
-            method: "POST",
-            body
+          url: "/login",
+          method: "POST",
+          body,
         };
-      }
+      },
     }),
   }),
 });
