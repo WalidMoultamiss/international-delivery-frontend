@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const TableNew = ({}) => {
+export const TableNew = ({
+  reload,
+  setLivraisons,
+  setSelectedLivraisonFromTable,
+}) => {
   const [livraisons, setLivraison] = useState([]);
 
   useEffect(() => {
@@ -11,12 +15,13 @@ export const TableNew = ({}) => {
       .then(
         (result) => {
           setLivraison(result);
+          setLivraisons(result);
           console.log(result);
         },
         (error) => console.log("error", error)
       )
       .catch((error) => console.log("error", error));
-  }, []);
+  }, [reload]);
 
   const TableHeads = [
     "from",
@@ -48,36 +53,32 @@ export const TableNew = ({}) => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {livraisons.map((l) => (
-                <tr className="transition-all hover:bg-gray-100 hover:shadow-lg">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {l.from}
-                  </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    {l.to}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    {l.kg}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    {l.montant}
-                    </td>
-                    <td className="px-6 py-4 flex justify-center whitespace-nowrap">
+              {livraisons.map((l, i) => (
+                <tr
+                  key={i}
+                  className="transition-all hover:bg-gray-100 hover:shadow-lg"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">{l.from}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{l.to}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{l.kg}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{l.montant}</td>
+                  <td className="px-6 py-4 flex justify-center whitespace-nowrap">
                     {l.estimatedDistance}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     {l.dateLivraison}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    {l.type}
-                    </td>
-                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                    <a
-                      href="#"
-                      className="text-indigo-600 hover:text-indigo-900"
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{l.type}</td>
+                  <td className="px-6 py-4 text-sm font-medium flex gap-3 whitespace-nowrap">
+                    <button
+                      className="text-indigo-600 hover:text-indigo-900 p-3 rounded-full bg-indigo-200"
+                      onClick={() => {
+                        setSelectedLivraisonFromTable(l);
+                      }}
                     >
-                      Edit zz
-                    </a>
+                      Select Livraison
+                    </button>
+                    
                   </td>
                 </tr>
               ))}

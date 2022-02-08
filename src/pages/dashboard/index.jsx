@@ -17,6 +17,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import DashboardContent from '@components/DashboardContent';
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import DriveEtaIcon from "@mui/icons-material/DriveEta";
+import MapIcon from '@mui/icons-material/Map';
 
 const drawerWidth = 240;
 
@@ -68,6 +71,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -87,6 +91,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export const Dashboard = ()=> {
   const theme = useTheme();
+const [show, setShow] = React.useState("livraison");
+
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -115,7 +121,7 @@ export const Dashboard = ()=> {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Delivery management
           </Typography>
         </Toolbar>
       </AppBar>
@@ -127,10 +133,15 @@ export const Dashboard = ()=> {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+          {['Livraison', 'Drivers',].map((text, index) => (
+            <ListItem
+              onClick={() => {
+                handleDrawerClose();
+                setShow(text);
+              }}
+            button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <LocalShippingIcon /> : <DriveEtaIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -138,10 +149,16 @@ export const Dashboard = ()=> {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
+          {['All mail', 'Map'].map((text, index) => (
+            <ListItem
+            onClick={() => {
+              handleDrawerClose();
+              setShow(text);
+            }}
+          button key={text}
+            >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon /> : <MapIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -150,7 +167,7 @@ export const Dashboard = ()=> {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <DashboardContent />
+        <DashboardContent show={show} />
       </Box>
     </Box>
   );
